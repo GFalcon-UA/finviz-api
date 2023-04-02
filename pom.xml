@@ -24,7 +24,7 @@
         <htmlunit.version>3.0.0</htmlunit.version>
         <jsoup.version>1.15.4</jsoup.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
-        <maven-version-ruleset.version>1.0.0</maven-version-ruleset.version>
+        <maven-version-ruleset.version>1.1.0</maven-version-ruleset.version>
         <opencsv.version>5.7.1</opencsv.version>
         <ossindex-maven-plugin.version>3.2.0</ossindex-maven-plugin.version>
         <slf4j-api.version>2.0.7</slf4j-api.version>

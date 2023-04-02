@@ -7,11 +7,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+
 import ua.com.gfalcon.finviz.exception.FinvizApiException;
 
 public class Stocks {
 
-    private List<Stock> stocksList;
+    private final List<Stock> stocksList;
 
     /**
      * Uses a text file with tickers on a new line
@@ -27,7 +29,8 @@ public class Stocks {
         stocksList = new ArrayList<>();
 
         try {
-            byte[] bytes = Files.readAllBytes(Paths.get(inputStocksFile));
+            String filename = FilenameUtils.getFullPath(inputStocksFile) + FilenameUtils.getName(inputStocksFile);
+            byte[] bytes = Files.readAllBytes(Paths.get(filename));
             String[] input = new String(bytes, StandardCharsets.UTF_8).split("\n");
             for (String s : input) {
                 stocksList.add(new Stock(s));
@@ -62,6 +65,8 @@ public class Stocks {
     }
 
     /**
+     * Get List of Stocks.
+     *
      * @return stocks list
      */
     public List<Stock> getStocks() {
@@ -96,6 +101,8 @@ public class Stocks {
     }
 
     /**
+     * Check if Stock is present in received stock list.
+     *
      * @param stock stock to check
      * @return true if stock list contains stock
      */
@@ -104,6 +111,8 @@ public class Stocks {
     }
 
     /**
+     * Get stock from stock list by ticker.
+     *
      * @param ticker stock to retrieve from Stocks list
      * @return stock that matches param
      */

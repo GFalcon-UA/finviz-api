@@ -2,6 +2,7 @@ package ua.com.gfalcon.finviz.screener;
 
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -26,10 +27,10 @@ import ua.com.gfalcon.finviz.validator.Validator;
 
 public class FinvizScreener implements Screener {
 
-    private List<FilterParameter> parameters;
-    private Signal signal;
+    private final List<FilterParameter> parameters;
+    private final Signal signal;
 
-    private Set<String> tickers = new HashSet<>();
+    private final Set<String> tickers = new HashSet<>();
     private LocalDateTime lastResult = null;
     private int tickersCount = 0;
 
@@ -45,10 +46,10 @@ public class FinvizScreener implements Screener {
 
     public Set<String> getTickers() {
         if (Objects.nonNull(getResultTimeStamp()) && (getResultTimeStamp().plusMinutes(5)
-                .isAfter(LocalDateTime.now()))) {
+                .isAfter(LocalDateTime.now(ZoneId.of("GMT"))))) {
             return new HashSet<>(this.tickers);
         }
-        int count = 0;
+        int count;
         try (final WebClient client = new WebClient()) {
             client.getOptions()
                     .setCssEnabled(false);
@@ -90,7 +91,7 @@ public class FinvizScreener implements Screener {
                 nextLoad = true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new FinvizApiException(e);
         }
         if (count < 0) {
             throw new FinvizApiException("The count is not recognized");
@@ -98,7 +99,7 @@ public class FinvizScreener implements Screener {
         if (tickers.size() != count) {
             throw new FinvizApiException("Count mismatched");
         }
-        this.lastResult = LocalDateTime.now();
+        this.lastResult = LocalDateTime.now(ZoneId.of("GMT"));
         this.tickersCount = tickers.size();
         return new HashSet<>(this.tickers);
     }

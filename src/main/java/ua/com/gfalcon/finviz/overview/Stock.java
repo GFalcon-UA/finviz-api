@@ -1,9 +1,12 @@
 package ua.com.gfalcon.finviz.overview;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import ua.com.gfalcon.finviz.exception.FinvizApiException;
@@ -11,84 +14,84 @@ import ua.com.gfalcon.finviz.exception.FinvizApiException;
 public class Stock {
 
     //<editor-fold desc="Variables">
-    private String ticker;
-    private String companyName;
-    private String sector;
-    private String industry;
-    private String geo;
-    private String index;
-    private String pe;
-    private String eps;
-    private String insiderOwn;
-    private String shsOutstand;
-    private String perfWeek;
-    private String marketCap;
-    private String forwardPE;
-    private String epsNextY;
-    private String insiderTrans;
-    private String shsFloat;
-    private String perfMonth;
-    private String income;
-    private String peg;
-    private String epsNextQ;
-    private String instOwn;
-    private String shortFloat;
-    private String perfQuarter;
-    private String sales;
-    private String ps;
-    private String epsThisYPercent;
-    private String instTrans;
-    private String shortInterest;
-    private String perfHalfY;
-    private String bookSh;
-    private String pb;
-    private String epsNextYPercent;
-    private String roa;
-    private String targetPrice;
-    private String perfYear;
-    private String cashSh;
-    private String pc;
-    private String epsNext5YPercent;
-    private String roe;
-    private String w52Range;
-    private String perfYTD;
-    private String dividend;
-    private String pfcf;
-    private String epsPast5YPercent;
-    private String roi;
-    private String w52High;
-    private String beta;
-    private String dividendPercent;
-    private String quickRatio;
-    private String salesPast5Y;
-    private String grossMargin;
-    private String w52Low;
-    private String atr;
-    private String employees;
-    private String currentRatio;
-    private String salesQQ;
-    private String operMargin;
-    private String rsi14;
-    private String volatility;
-    private String optionable;
-    private String debtEq;
-    private String epsQQ;
-    private String profitMargin;
-    private String relVolume;
-    private String prevClose;
-    private String shortable;
-    private String ltDebtEq;
-    private String earnings;
-    private String payout;
-    private String avgVolume;
-    private String price;
-    private String recom;
-    private String sma20;
-    private String sma50;
-    private String sma200;
-    private String volume;
-    private String change;
-    private String companyInfo;
+    private final String ticker;
+    private final String companyName;
+    private final String sector;
+    private final String industry;
+    private final String geo;
+    private final String index;
+    private final String pe;
+    private final String eps;
+    private final String insiderOwn;
+    private final String shsOutstand;
+    private final String perfWeek;
+    private final String marketCap;
+    private final String forwardPE;
+    private final String epsNextY;
+    private final String insiderTrans;
+    private final String shsFloat;
+    private final String perfMonth;
+    private final String income;
+    private final String peg;
+    private final String epsNextQ;
+    private final String instOwn;
+    private final String shortFloat;
+    private final String perfQuarter;
+    private final String sales;
+    private final String ps;
+    private final String epsThisYPercent;
+    private final String instTrans;
+    private final String shortInterest;
+    private final String perfHalfY;
+    private final String bookSh;
+    private final String pb;
+    private final String epsNextYPercent;
+    private final String roa;
+    private final String targetPrice;
+    private final String perfYear;
+    private final String cashSh;
+    private final String pc;
+    private final String epsNext5YPercent;
+    private final String roe;
+    private final String w52Range;
+    private final String perfYTD;
+    private final String dividend;
+    private final String pfcf;
+    private final String epsPast5YPercent;
+    private final String roi;
+    private final String w52High;
+    private final String beta;
+    private final String dividendPercent;
+    private final String quickRatio;
+    private final String salesPast5Y;
+    private final String grossMargin;
+    private final String w52Low;
+    private final String atr;
+    private final String employees;
+    private final String currentRatio;
+    private final String salesQQ;
+    private final String operMargin;
+    private final String rsi14;
+    private final String volatility;
+    private final String optionable;
+    private final String debtEq;
+    private final String epsQQ;
+    private final String profitMargin;
+    private final String relVolume;
+    private final String prevClose;
+    private final String shortable;
+    private final String ltDebtEq;
+    private final String earnings;
+    private final String payout;
+    private final String avgVolume;
+    private final String price;
+    private final String recom;
+    private final String sma20;
+    private final String sma50;
+    private final String sma200;
+    private final String volume;
+    private final String change;
+    private final String companyInfo;
     //</editor-fold>
 
     /**
@@ -105,7 +108,8 @@ public class Stock {
         Document doc = getStockInfo(ticker);
         if (doc.getElementById("ticker") != null) {
             Elements elements = doc.select("a.tab-link");
-            this.ticker = doc.getElementById("ticker")
+            this.ticker = Optional.ofNullable(doc.getElementById("ticker"))
+                    .orElse(new Element("div"))
                     .text();
             this.companyName = elements.get(0)
                     .text();
@@ -602,10 +606,23 @@ public class Stock {
     }
 
     /**
-     * @return all stock variables as String[]
+     * Get stocks attributes.
+     *
+     * @return all stock variables as List of Strings
      */
-    public String[] getStringArr() {
-        return new String[]{this.ticker, this.companyName, this.sector, this.industry, this.geo, this.index, this.pe, this.eps, this.insiderOwn, this.shsOutstand, this.perfWeek, this.marketCap, this.forwardPE, this.epsNextY, this.insiderTrans, this.shsFloat, this.perfMonth, this.income, this.peg, this.epsNextQ, this.instOwn, this.shortFloat, this.perfQuarter, this.sales, this.ps, this.epsThisYPercent, this.instTrans, this.shortInterest, this.perfHalfY, this.bookSh, this.pb, this.epsNextYPercent, this.roa, this.targetPrice, this.perfYear, this.cashSh, this.pc, this.epsNext5YPercent, this.roe, this.w52Range, this.perfYTD, this.dividend, this.pfcf, this.epsPast5YPercent, this.roi, this.w52High, this.beta, this.dividendPercent, this.quickRatio, this.salesPast5Y, this.grossMargin, this.w52Low, this.atr, this.employees, this.currentRatio, this.salesQQ, this.operMargin, this.rsi14, this.volatility, this.optionable, this.debtEq, this.epsQQ, this.profitMargin, this.relVolume, this.prevClose, this.shortable, this.ltDebtEq, this.earnings, this.payout, this.avgVolume, this.price, this.recom, this.sma20, this.sma50, this.sma200, this.volume, this.change};
+    public List<String> getStringArr() {
+        return List.of(this.ticker, this.companyName, this.sector, this.industry, this.geo, this.index, this.pe,
+                this.eps, this.insiderOwn, this.shsOutstand, this.perfWeek, this.marketCap, this.forwardPE,
+                this.epsNextY, this.insiderTrans, this.shsFloat, this.perfMonth, this.income, this.peg, this.epsNextQ,
+                this.instOwn, this.shortFloat, this.perfQuarter, this.sales, this.ps, this.epsThisYPercent,
+                this.instTrans, this.shortInterest, this.perfHalfY, this.bookSh, this.pb, this.epsNextYPercent,
+                this.roa, this.targetPrice, this.perfYear, this.cashSh, this.pc, this.epsNext5YPercent, this.roe,
+                this.w52Range, this.perfYTD, this.dividend, this.pfcf, this.epsPast5YPercent, this.roi, this.w52High,
+                this.beta, this.dividendPercent, this.quickRatio, this.salesPast5Y, this.grossMargin, this.w52Low,
+                this.atr, this.employees, this.currentRatio, this.salesQQ, this.operMargin, this.rsi14, this.volatility,
+                this.optionable, this.debtEq, this.epsQQ, this.profitMargin, this.relVolume, this.prevClose,
+                this.shortable, this.ltDebtEq, this.earnings, this.payout, this.avgVolume, this.price, this.recom,
+                this.sma20, this.sma50, this.sma200, this.volume, this.change);
     }
 
     /**

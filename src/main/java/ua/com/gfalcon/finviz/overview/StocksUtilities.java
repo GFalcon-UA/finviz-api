@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +38,8 @@ public class StocksUtilities {
      * @param absoluteFilePath Absolute file path of CSV file
      */
     public static void outputToCSV(Stocks stocks, String absoluteFilePath) {
-        File file = new File(absoluteFilePath);
+        String filename = FilenameUtils.getFullPath(absoluteFilePath) + FilenameUtils.getName(absoluteFilePath);
+        File file = new File(filename);
         if (file.getParentFile()
                 .mkdirs()) {
             try {
@@ -62,7 +64,8 @@ public class StocksUtilities {
                     writer.writeNext(CSV_HEADER);
                 }
                 for (Stock stock : stocks.getStocks()) {
-                    writer.writeNext(stock.getStringArr());
+                    writer.writeNext(stock.getStringArr()
+                            .toArray(new String[0]));
                 }
                 writer.close();
                 outputFile.close();
@@ -85,7 +88,8 @@ public class StocksUtilities {
      * @param absoluteFilePath Absolute file path of CSV file
      */
     public static void outputToCSV(Stock stock, String absoluteFilePath) {
-        File file = new File(absoluteFilePath);
+        String filename = FilenameUtils.getFullPath(absoluteFilePath) + FilenameUtils.getName(absoluteFilePath);
+        File file = new File(filename);
         if (file.getParentFile()
                 .mkdirs()) {
             try {
@@ -108,7 +112,8 @@ public class StocksUtilities {
                     writer = new CSVWriter(outputFile);
                     writer.writeNext(CSV_HEADER);
                 }
-                writer.writeNext(stock.getStringArr());
+                writer.writeNext(stock.getStringArr()
+                        .toArray(new String[0]));
                 writer.close();
                 outputFile.close();
             } catch (IOException | CsvValidationException e) {
