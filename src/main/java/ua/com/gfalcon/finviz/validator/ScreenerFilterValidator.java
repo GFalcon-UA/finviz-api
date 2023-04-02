@@ -16,6 +16,10 @@ public class ScreenerFilterValidator implements Validator<List<FilterParameter>>
 
     @Override
     public boolean isValid(List<FilterParameter> obj) {
-        return obj != null && obj.stream().map(o -> o.getClass().getName()).distinct().count() == obj.size();
+        return obj != null && obj.stream()
+                .map(o -> o.getClass()
+                        .getName())
+                .distinct()
+                .count() == obj.size();
     }
 }

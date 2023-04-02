@@ -2,6 +2,7 @@ package ua.com.gfalcon.finviz.screener;
 
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class FinvizScreener implements Screener {
     public FinvizScreener(List<FilterParameter> parameters, Signal signal) {
         Validator<List<FilterParameter>> validator = ScreenerFilterValidator.getInstance();
         if (validator.isValid(parameters)) {
-            this.parameters = parameters;
+            this.parameters = Collections.unmodifiableList(parameters);
             this.signal = signal;
         } else {
             throw new FinvizApiException("Incorrect list of parameters: " + parameters);
@@ -43,13 +44,16 @@ public class FinvizScreener implements Screener {
     }
 
     public Set<String> getTickers() {
-        if (Objects.nonNull(getResultTimeStamp()) && (getResultTimeStamp().plusMinutes(5).isAfter(LocalDateTime.now()))){
-            return this.tickers;
+        if (Objects.nonNull(getResultTimeStamp()) && (getResultTimeStamp().plusMinutes(5)
+                .isAfter(LocalDateTime.now()))) {
+            return new HashSet<>(this.tickers);
         }
         int count = 0;
-        try(final WebClient client = new WebClient()) {
-            client.getOptions().setCssEnabled(false);
-            client.getOptions().setJavaScriptEnabled(false);
+        try (final WebClient client = new WebClient()) {
+            client.getOptions()
+                    .setCssEnabled(false);
+            client.getOptions()
+                    .setJavaScriptEnabled(false);
             RequestBuilder builder = new RequestBuilder();
             String url = builder.build(this.parameters, this.signal);
             HtmlPage page = client.getPage(url);
@@ -61,8 +65,10 @@ public class FinvizScreener implements Screener {
                     .map((Function<DomNode, String>) DomNode::getVisibleText)
                     .filter(s -> s.contains("Total:") && s.contains("#"))
                     .map(s -> s.split("#")[0])
-                    .map(s -> Integer.parseInt(s.substring("Total:".length()).trim()))
-                    .findFirst().orElse(-1);
+                    .map(s -> Integer.parseInt(s.substring("Total:".length())
+                            .trim()))
+                    .findFirst()
+                    .orElse(-1);
 
             boolean nextLoad = false;
             for (int i = 1; i < count; i = i + 1000) {
@@ -71,32 +77,30 @@ public class FinvizScreener implements Screener {
                     page = client.getPage(newUrl);
                     table = (HtmlTable) page.getElementById("screener-views-table");
                 }
-                tickers.addAll(
-                        table.getElementsByTagName("td")
-                                .stream()
-                                .filter(htmlElement -> htmlElement.getAttribute("class")
-                                        .equals("screener-tickers"))
-                                .flatMap((Function<HtmlElement, Stream<DomNode>>) htmlElement -> htmlElement.getChildNodes()
-                                        .stream())
-                                .filter(HtmlSpan.class::isInstance)
-                                .map(DomNode::getVisibleText)
-                                .map(String::trim)
-                                .collect(Collectors.toList())
-                );
+                tickers.addAll(table.getElementsByTagName("td")
+                        .stream()
+                        .filter(htmlElement -> htmlElement.getAttribute("class")
+                                .equals("screener-tickers"))
+                        .flatMap((Function<HtmlElement, Stream<DomNode>>) htmlElement -> htmlElement.getChildNodes()
+                                .stream())
+                        .filter(HtmlSpan.class::isInstance)
+                        .map(DomNode::getVisibleText)
+                        .map(String::trim)
+                        .collect(Collectors.toList()));
                 nextLoad = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(count < 0) {
+        if (count < 0) {
             throw new FinvizApiException("The count is not recognized");
         }
-        if(tickers.size() != count) {
+        if (tickers.size() != count) {
             throw new FinvizApiException("Count mismatched");
         }
         this.lastResult = LocalDateTime.now();
         this.tickersCount = tickers.size();
-        return tickers;
+        return new HashSet<>(this.tickers);
     }
 
     @Override

@@ -10,12 +10,12 @@ public class RequestBuilder {
 
     public String build(List<FilterParameter> filters) {
         StringBuilder builder = new StringBuilder("https://finviz.com/screener.ashx?v=411");
-        if(Objects.nonNull(filters) && !filters.isEmpty()) {
+        if (Objects.nonNull(filters) && !filters.isEmpty()) {
             builder.append("&f=");
             boolean next = false;
             for (FilterParameter parameter : filters) {
                 if (next) {
-                   builder.append(",");
+                    builder.append(",");
                 }
                 builder.append(parameter.getValue());
                 next = true;

@@ -3,7 +3,9 @@ package ua.com.gfalcon.finviz.screener;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import ua.com.gfalcon.finviz.exception.FinvizApiException;
@@ -29,9 +31,7 @@ class ScreenerTest {
     @Test
     void noDuplicatesInFilterParameters() {
         Exception exception = assertThrows(FinvizApiException.class, () -> {
-            new FinvizScreener(List.of(
-                    Industry.STOCK, Industry.ETF
-            ), Signal.NEW_LOW);
+            new FinvizScreener(List.of(Industry.STOCK, Industry.ETF), Signal.NEW_LOW);
         });
 
         String expectedMessage = "Incorrect list of parameters: [STOCK, ETF]";
@@ -41,11 +41,7 @@ class ScreenerTest {
     }
 
     public static List<FilterParameter> tradingStocks() {
-        return List.of(
-                MarketCap.SMALL_PLUS,
-                Industry.STOCK,
-                OptionShort.SHORTABLE,
-                AverageVolume.OVER_500_K,
+        return List.of(MarketCap.SMALL_PLUS, Industry.STOCK, OptionShort.SHORTABLE, AverageVolume.OVER_500_K,
                 IPOdate.MORE_THAN_5_YEARS_AGO//,
 //                Price.FROM_1_TO_20
         );
