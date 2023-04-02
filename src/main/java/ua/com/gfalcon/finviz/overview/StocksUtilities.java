@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,12 +33,10 @@ public class StocksUtilities {
      * Export.outputToCSV(stocks, System.getProperty("user.home") + "/Desktop/output.csv");
      * }
      *
-     * @param stocks           Stocks to output
-     * @param absoluteFilePath Absolute file path of CSV file
+     * @param stocks Stocks to output
+     * @param file   Absolute file path of CSV file
      */
-    public static void outputToCSV(Stocks stocks, String absoluteFilePath) {
-        String filename = FilenameUtils.getFullPath(absoluteFilePath) + FilenameUtils.getName(absoluteFilePath);
-        File file = new File(filename);
+    public static void outputToCSV(Stocks stocks, File file) {
         if (file.getParentFile()
                 .mkdirs()) {
             try {
@@ -85,11 +82,9 @@ public class StocksUtilities {
      * }
      *
      * @param stock            Stock to output
-     * @param absoluteFilePath Absolute file path of CSV file
+     * @param file             Absolute file path of CSV file
      */
-    public static void outputToCSV(Stock stock, String absoluteFilePath) {
-        String filename = FilenameUtils.getFullPath(absoluteFilePath) + FilenameUtils.getName(absoluteFilePath);
-        File file = new File(filename);
+    public static void outputToCSV(Stock stock, File file) {
         if (file.getParentFile()
                 .mkdirs()) {
             try {

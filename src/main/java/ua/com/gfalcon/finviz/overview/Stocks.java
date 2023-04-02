@@ -3,11 +3,9 @@ package ua.com.gfalcon.finviz.overview;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.io.FilenameUtils;
 
 import ua.com.gfalcon.finviz.exception.FinvizApiException;
 
@@ -18,19 +16,14 @@ public class Stocks {
     /**
      * Uses a text file with tickers on a new line
      *
-     * @param inputStocksFile text file with stocks
+     * @param path text file with stocks
      * @throws FinvizApiException if unable to find ticker
      */
-    public Stocks(String inputStocksFile) {
-        if (!inputStocksFile.contains(".")) {
-            throw new FinvizApiException(
-                    "For single stock tickers, use the Stock class. Single inputs for Stocks is reserved for file inputs.");
-        }
+    public Stocks(Path path) {
         stocksList = new ArrayList<>();
 
         try {
-            String filename = FilenameUtils.getFullPath(inputStocksFile) + FilenameUtils.getName(inputStocksFile);
-            byte[] bytes = Files.readAllBytes(Paths.get(filename));
+            byte[] bytes = Files.readAllBytes(path);
             String[] input = new String(bytes, StandardCharsets.UTF_8).split("\n");
             for (String s : input) {
                 stocksList.add(new Stock(s));

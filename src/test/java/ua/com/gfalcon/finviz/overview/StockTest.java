@@ -1,5 +1,6 @@
 package ua.com.gfalcon.finviz.overview;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,6 @@ class StockTest {
 
     @Test
     void outputTest() {
-        StocksUtilities.outputToCSV(stock, outputFileCSV);
+        StocksUtilities.outputToCSV(stock, new File(outputFileCSV));
     }
 }

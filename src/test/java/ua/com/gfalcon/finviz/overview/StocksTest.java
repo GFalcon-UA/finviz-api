@@ -1,5 +1,6 @@
 package ua.com.gfalcon.finviz.overview;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,11 +29,11 @@ class StocksTest {
     @Test
     void testStocksWithFile() throws IOException {
         stocks = new Stocks(inputFileTxt);
-        StocksUtilities.outputToCSV(stocks, outputFileCSV);
+        StocksUtilities.outputToCSV(stocks, new File(outputFileCSV));
     }
 
     @Test
     void outputTest() {
-        StocksUtilities.outputToCSV(stocks, outputFileCSV);
+        StocksUtilities.outputToCSV(stocks, new File(outputFileCSV));
     }
 }
