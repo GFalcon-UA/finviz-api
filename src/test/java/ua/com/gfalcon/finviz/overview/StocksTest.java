@@ -2,6 +2,7 @@ package ua.com.gfalcon.finviz.overview;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ class StocksTest {
 
     @Test
     void testStocksWithFile() throws IOException {
-        stocks = new Stocks(inputFileTxt);
+        stocks = new Stocks(Paths.get(inputFileTxt));
         StocksUtilities.outputToCSV(stocks, new File(outputFileCSV));
     }
 
