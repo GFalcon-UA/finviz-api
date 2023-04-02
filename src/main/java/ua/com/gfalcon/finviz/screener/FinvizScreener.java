@@ -1,9 +1,10 @@
 package ua.com.gfalcon.finviz.screener;
 
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,25 +20,37 @@ import org.htmlunit.html.HtmlTable;
 import ua.com.gfalcon.finviz.exception.FinvizApiException;
 import ua.com.gfalcon.finviz.screener.filter.FilterParameter;
 import ua.com.gfalcon.finviz.screener.filter.Signal;
+import ua.com.gfalcon.finviz.validator.ScreenerFilterValidator;
+import ua.com.gfalcon.finviz.validator.Validator;
 
 public class FinvizScreener implements Screener {
 
     private List<FilterParameter> parameters;
     private Signal signal;
 
+    private Set<String> tickers = new HashSet<>();
+    private LocalDateTime lastResult = null;
+    private int tickersCount = 0;
+
     public FinvizScreener(List<FilterParameter> parameters, Signal signal) {
-        this.parameters = parameters;
-        this.signal = signal;
+        Validator<List<FilterParameter>> validator = ScreenerFilterValidator.getInstance();
+        if (validator.isValid(parameters)) {
+            this.parameters = parameters;
+            this.signal = signal;
+        } else {
+            throw new FinvizApiException("Incorrect list of parameters: " + parameters);
+        }
     }
 
     public Set<String> getTickers() {
-        Set<String> tickers = new HashSet<>();
+        if (Objects.nonNull(getResultTimeStamp()) && (getResultTimeStamp().plusMinutes(5).isAfter(LocalDateTime.now()))){
+            return this.tickers;
+        }
         int count = 0;
         try(final WebClient client = new WebClient()) {
             client.getOptions().setCssEnabled(false);
             client.getOptions().setJavaScriptEnabled(false);
             RequestBuilder builder = new RequestBuilder();
-//
             String url = builder.build(this.parameters, this.signal);
             HtmlPage page = client.getPage(url);
             HtmlTable table = (HtmlTable) page.getElementById("screener-views-table");
@@ -81,6 +94,20 @@ public class FinvizScreener implements Screener {
         if(tickers.size() != count) {
             throw new FinvizApiException("Count mismatched");
         }
+        this.lastResult = LocalDateTime.now();
+        this.tickersCount = tickers.size();
         return tickers;
     }
+
+    @Override
+    public LocalDateTime getResultTimeStamp() {
+        return this.lastResult;
+    }
+
+    @Override
+    public int getTickersCount() {
+        return this.tickersCount;
+    }
+
+
 }
