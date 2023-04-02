@@ -27,9 +27,8 @@ public class StocksUtilities {
     }
 
     /**
-     * Outputs Stocks to CSV file
-     * <p>
-     * <br/>Ex:
+     * Outputs Stocks to CSV file.
+     * Ex:
      * {@code
      * Export.outputToCSV(stocks, System.getProperty("user.home") + "/Desktop/output.csv");
      * }
@@ -76,9 +75,8 @@ public class StocksUtilities {
     }
 
     /**
-     * Outputs Stock to CSV file
-     * <p>
-     * <br/>Ex:
+     * Outputs Stock to CSV file.
+     * Ex:
      * {@code
      * Export.outputToCSV(stocks, System.getProperty("user.home") + "/Desktop/output.csv");
      * }
