@@ -125,7 +125,7 @@
     </profiles>
 
     <build>
-        <finalName>maven-version-ruleset</finalName>
+        <finalName>finviz-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
