@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -34,6 +35,10 @@ public class FinvizScreener implements Screener {
     private LocalDateTime lastResult = null;
     private int tickersCount = 0;
 
+    public FinvizScreener(List<FilterParameter> parameters) {
+        this(parameters, null);
+    }
+
     public FinvizScreener(List<FilterParameter> parameters, Signal signal) {
         Validator<List<FilterParameter>> validator = ScreenerFilterValidator.getInstance();
         if (validator.isValid(parameters)) {
@@ -59,17 +64,15 @@ public class FinvizScreener implements Screener {
             String url = builder.build(this.parameters, this.signal);
             HtmlPage page = client.getPage(url);
             HtmlTable table = (HtmlTable) page.getElementById("screener-views-table");
-            count = table.getElementsByTagName("td")
+            String countString = table.getElementsByTagName("td")
                     .stream()
                     .filter(htmlElement -> htmlElement.getAttribute("class")
                             .equals("count-text"))
                     .map((Function<DomNode, String>) DomNode::getVisibleText)
-                    .filter(s -> s.contains("Total:") && s.contains("#"))
-                    .map(s -> s.split("#")[0])
-                    .map(s -> Integer.parseInt(s.substring("Total:".length())
-                            .trim()))
-                    .findFirst()
-                    .orElse(-1);
+                    .filter(s -> s.contains("Total"))
+                    .findFirst().orElse("");
+
+            count = parseCount(countString);
 
             boolean nextLoad = false;
             for (int i = 1; i < count; i = i + 1000) {
@@ -102,6 +105,24 @@ public class FinvizScreener implements Screener {
         this.lastResult = LocalDateTime.now(ZoneId.of("GMT"));
         this.tickersCount = tickers.size();
         return new HashSet<>(this.tickers);
+    }
+
+    private int parseCount(String str) {
+        Optional<String> optional = Optional.of("-1");
+        if(str.startsWith("Total:") && str.contains("#")) {
+            optional = Optional.of(str)
+                    .map(s -> s.split("#")[0])
+                    .map(s -> s.substring("Total:".length()));
+        }
+        if(str.startsWith("#") && str.endsWith("Total") && str.contains("/")) {
+            optional = Optional.of(str)
+                    .map(s -> s.split("/")[1])
+                    .map(s -> s.replace("Total", ""));
+        }
+        return optional
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .orElse(-1);
     }
 
     @Override

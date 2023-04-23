@@ -6,7 +6,7 @@
 
     <groupId>ua.com.gfalcon</groupId>
     <artifactId>finviz-api</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 
     <name>Finviz API (unofficial)</name>
     <description>API for scraping stocks data from finviz.com</description>
