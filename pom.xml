@@ -21,7 +21,7 @@
         <ossindex.fail>true</ossindex.fail>
 
         <commons-collections4.version>4.4</commons-collections4.version>
-        <htmlunit.version>3.0.0</htmlunit.version>
+        <htmlunit.version>3.9.0</htmlunit.version>
         <jsoup.version>1.15.4</jsoup.version>
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
         <maven-version-ruleset.version>1.1.0</maven-version-ruleset.version>
