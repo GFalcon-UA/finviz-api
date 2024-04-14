@@ -1,3 +1,30 @@
+/*
+ *  MIT License
+ * -----------
+ *
+ * Copyright (c) 2016-2024 Oleksii V. KHALIKOV (http://gfalcon.com.ua)
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package ua.com.gfalcon.finviz.overview;
 
 import java.io.IOException;
@@ -11,6 +38,9 @@ import org.jsoup.select.Elements;
 
 import ua.com.gfalcon.finviz.exception.FinvizApiException;
 
+/**
+ * The Stock class represents stock ticker information retrieved from Finviz.
+ */
 public class Stock {
 
     //<editor-fold desc="Variables">
@@ -104,9 +134,11 @@ public class Stock {
      * @param ticker ticker of the company
      * @throws FinvizApiException when ticker cannot be found on Finviz
      */
+    @SuppressWarnings("checkstyle:MethodLength")
     public Stock(String ticker) {
         Document doc = getStockInfo(ticker);
-        if (doc.getElementById("ticker") != null) {
+        if (!doc.getElementsByAttribute("data-ticker")
+                .isEmpty()) {
             Elements elements = doc.select("a.tab-link");
             this.ticker = Optional.ofNullable(doc.getElementById("ticker"))
                     .orElse(new Element("div"))
@@ -268,7 +300,7 @@ public class Stock {
                     .get(0)
                     .text());
         } else {
-            throw new FinvizApiException("This ticker cannot be found");
+            throw new FinvizApiException("This ticker " + ticker + " cannot be found");
         }
     }
 
@@ -625,8 +657,13 @@ public class Stock {
                 this.sma20, this.sma50, this.sma200, this.volume, this.change);
     }
 
+
     /**
-     * @return all stock variables
+     * Returns a string representation of the Stock object.
+     * The string includes all the attributes of the Stock object,
+     * formatted as key-value pairs separated by newlines.
+     *
+     * @return a string representation of the Stock object
      */
     @Override
     public String toString() {
