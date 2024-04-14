@@ -86,12 +86,13 @@ class ScreenerTest {
         int tickerCount = FinvizScreener.getTickerCount(page);
         Elements tickers = page.getElementsByClass(SCREENER_TICKERS_CLASS);
 
-        Assertions.assertAll(() -> Assertions.assertTrue(tickerCount > 0), () -> Assertions.assertNotNull(tickers),
-                () -> Assertions.assertFalse(tickers.isEmpty()), () -> Assertions.assertFalse(
-                        FinvizScreener.getTickerSymbols(tickers)
-                                .isEmpty()), () -> Assertions.assertTrue(StringUtils.isNotBlank(
-                        FinvizScreener.getTickerSymbols(tickers)
-                                .get(0))));
+        Assertions.assertAll(
+                () -> Assertions.assertTrue(tickerCount > 0),
+                () -> Assertions.assertNotNull(tickers),
+                () -> Assertions.assertFalse(tickers.isEmpty()),
+                () -> Assertions.assertFalse(FinvizScreener.getTickerSymbols(tickers).isEmpty()),
+                () -> Assertions.assertTrue(StringUtils.isNotBlank(FinvizScreener.getTickerSymbols(tickers).get(0)))
+        );
     }
 
     @Test
