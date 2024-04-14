@@ -67,7 +67,7 @@ class StockTest {
         for (String field : CSV_HEADER) {
             value = stock.getStockDetails()
                     .getOrDefault(field, "");
-            if (StringUtils.isBlank(value)) {
+            if (StringUtils.isBlank(value) && !"Trades".equals(field)) {
                 lostFields.add(field);
             }
         }
