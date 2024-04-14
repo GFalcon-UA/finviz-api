@@ -44,6 +44,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 
@@ -60,7 +61,8 @@ import ua.com.gfalcon.finviz.screener.filter.params.OptionShort;
 
 class ScreenerTest {
 
-    //    @Test
+    @Test
+    @Disabled("use to load page")
     void saveHtmlPageAsResource() {
         try {
             URL url = new URL("https://finviz.com/screener.ashx?v=411");
@@ -86,12 +88,13 @@ class ScreenerTest {
         int tickerCount = FinvizScreener.getTickerCount(page);
         Elements tickers = page.getElementsByClass(SCREENER_TICKERS_CLASS);
 
-        Assertions.assertAll(() -> Assertions.assertTrue(tickerCount > 0), () -> Assertions.assertNotNull(tickers),
-                () -> Assertions.assertFalse(tickers.isEmpty()), () -> Assertions.assertFalse(
-                        FinvizScreener.getTickerSymbols(tickers)
-                                .isEmpty()), () -> Assertions.assertTrue(StringUtils.isNotBlank(
-                        FinvizScreener.getTickerSymbols(tickers)
-                                .get(0))));
+        Assertions.assertAll(
+                () -> Assertions.assertTrue(tickerCount > 0),
+                () -> Assertions.assertNotNull(tickers),
+                () -> Assertions.assertFalse(tickers.isEmpty()),
+                () -> Assertions.assertFalse(FinvizScreener.getTickerSymbols(tickers).isEmpty()),
+                () -> Assertions.assertTrue(StringUtils.isNotBlank(FinvizScreener.getTickerSymbols(tickers).get(0)))
+        );
     }
 
     @Test

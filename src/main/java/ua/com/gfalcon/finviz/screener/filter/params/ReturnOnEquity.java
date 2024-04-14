@@ -32,13 +32,13 @@ import ua.com.gfalcon.finviz.screener.filter.FilterParameter;
 /**
  * ReturnOnEquity is an enumeration that represents different filter parameters for return on equity.
  * It implements the FilterParameter interface.
- * <p/>
- * The possible return on equity filter parameters are:
- * - POSITIVE: Represents the filter parameter for positive return on equity.
- * - NEGATIVE: Represents the filter parameter for negative return on equity.
- * - VERY_POSITIVE: Represents the filter parameter for very positive return on equity.
- * - VERY_NEGATIVE: Represents the filter parameter for very negative return on equity.
- * <p/>
+ * <p>
+ * The possible return on equity filter parameters are:<br>
+ * - POSITIVE: Represents the filter parameter for positive return on equity.<br>
+ * - NEGATIVE: Represents the filter parameter for negative return on equity.<br>
+ * - VERY_POSITIVE: Represents the filter parameter for very positive return on equity.<br>
+ * - VERY_NEGATIVE: Represents the filter parameter for very negative return on equity.<br>
+ * </p>
  * Each filter parameter has a corresponding value that can be retrieved using the getValue() method.
  */
 public enum ReturnOnEquity implements FilterParameter {
