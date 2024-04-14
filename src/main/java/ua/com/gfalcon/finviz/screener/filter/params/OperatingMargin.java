@@ -32,7 +32,7 @@ import ua.com.gfalcon.finviz.screener.filter.FilterParameter;
 /**
  * The OperatingMargin enum represents different types of operating margins used as filter parameters.
  * Each operating margin has a corresponding value that can be used for filtering data.
- * <p/>
+ * <br>
  * The enum implements the FilterParameter interface,
  * which requires the implementation of the getValue() method to retrieve the value of the filter parameter.
  */

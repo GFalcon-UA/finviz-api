@@ -31,10 +31,10 @@ import ua.com.gfalcon.finviz.screener.filter.FilterParameter;
 
 /**
  * The DebtEquity enum represents different debt-to-equity filter parameters.
- * <p/>
+ * <p>
  * It implements the FilterParameter interface and provides a method to get the string value of each parameter.
  * The available DebtEquity filter options are HIGH, LOW, UNDER_1, and OVER_1.
- * <p/>
+ * </p>
  * Usage:
  * DebtEquity filter = DebtEquity.HIGH;
  * String value = filter.getValue(); // returns "fa_debteq_high"

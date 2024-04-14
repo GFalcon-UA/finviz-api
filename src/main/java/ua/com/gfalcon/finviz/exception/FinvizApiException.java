@@ -30,7 +30,7 @@ package ua.com.gfalcon.finviz.exception;
 /**
  * FinvizApiException is a subclass of RuntimeException that is thrown when an error occurs while using the Finviz API.
  * It is used to wrap any exceptions that occur during API usage and provide more specific information about the error.
- * <p/>
+ * <br>
  * This class provides several constructors to handle different scenarios
  * and allows the exception message and underlying cause to be specified.
  */

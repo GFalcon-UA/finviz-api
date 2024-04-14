@@ -65,6 +65,12 @@ public class FinvizScreener implements Screener {
     private LocalDateTime lastResult = null;
     private int tickersCount = 0;
 
+    /**
+     * FinvizScreener is a class that represents a Finviz screener with a list of filter parameters.
+     * It provides methods to retrieve the tickers, the result timestamp, and the number of tickers.
+     *
+     * @param parameters list of filter parameters.
+     */
     public FinvizScreener(List<FilterParameter> parameters) {
         this(parameters, null);
     }
@@ -72,6 +78,9 @@ public class FinvizScreener implements Screener {
     /**
      * FinvizScreener is a class that represents a Finviz screener with a list of filter parameters and a signal.
      * It provides methods to retrieve the tickers, the result timestamp, and the number of tickers.
+     *
+     * @param parameters list of filter parameters.
+     * @param signal represents one of the signals.
      */
     public FinvizScreener(List<FilterParameter> parameters, Signal signal) {
         Validator<List<FilterParameter>> validator = ScreenerFilterValidator.getInstance();
