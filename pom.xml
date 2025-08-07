@@ -20,13 +20,13 @@
         <ossindex.skip>false</ossindex.skip>
         <ossindex.fail>true</ossindex.fail>
 
-        <commons-collections4.version>4.4</commons-collections4.version>
-        <jsoup.version>1.17.2</jsoup.version>
-        <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <commons-collections4.version>4.5.0</commons-collections4.version>
+        <jsoup.version>1.21.1</jsoup.version>
+        <junit-jupiter.version>5.13.4</junit-jupiter.version>
         <maven-version-ruleset.version>1.1.0</maven-version-ruleset.version>
-        <opencsv.version>5.9</opencsv.version>
+        <opencsv.version>5.12.0</opencsv.version>
         <ossindex-maven-plugin.version>3.2.0</ossindex-maven-plugin.version>
-        <slf4j-api.version>2.0.12</slf4j-api.version>
+        <slf4j-api.version>2.0.17</slf4j-api.version>
     </properties>
 
     <dependencies>
@@ -124,10 +124,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.14.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                     <showWarnings>true</showWarnings>
                     <failOnWarning>true</failOnWarning>
                 </configuration>

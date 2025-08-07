@@ -34,8 +34,6 @@ import ua.com.gfalcon.finviz.screener.filter.FilterParameter;
 /**
  * The ScreenerFilterValidator class is responsible for validating a list of FilterParameter objects.
  * It ensures that the list does not contain duplicate FilterParameter classes.
- *
- * @param <T> the type of FilterParameter objects to be validated
  */
 public class ScreenerFilterValidator implements Validator<List<FilterParameter>> {
 

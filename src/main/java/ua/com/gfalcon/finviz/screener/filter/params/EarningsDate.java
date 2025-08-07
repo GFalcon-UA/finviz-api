@@ -32,10 +32,8 @@ import ua.com.gfalcon.finviz.screener.filter.FilterParameter;
 /**
  * This enum represents different earnings date filter parameters that can be used
  * in the application. It implements the FilterParameter interface.
- * <p/>
- * Earnings dates can be filtered based on different time periods such as today,
- * tomorrow, yesterday, next 5 days, previous 5 days, this week, next week, previous week,
- * and this month.
+ * <p>
+ * Earnings dates can be filtered based on a variety of time periods.
  */
 public enum EarningsDate implements FilterParameter {
     TODAY("earningsdate_today"),
